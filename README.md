@@ -16,9 +16,9 @@ For obvious reasons, I haven't visited the ones that suck, at least not lately.
 * Germany
 * Netherlands
 * Croatia
-* UnitedKingdom
+* United Kingdom
 * Italy
 * France
 * America
-* SaudiArabia
+* Saudi Arabia
 * Venezuela
