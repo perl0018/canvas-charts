@@ -13,7 +13,7 @@
     },
     {
         "id": 2,
-        "name": "Netherlands",
+        "name": "NL",
         "color": "green",
         "rating": 5000
     },
@@ -25,7 +25,7 @@
     },
     {
         "id": 4,
-        "name": "UnitedKingdom",
+        "name": "UK",
         "color": "white",
         "rating": 5000
     },
@@ -49,7 +49,7 @@
     },
     {
           "id": 8,
-          "name": "SaudiArabiarica",
+          "name": "Saudi",
           "color": "black",
           "rating": 1000
     },
