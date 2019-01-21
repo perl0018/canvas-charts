@@ -8,93 +8,145 @@
         canvas {
             border: 2px solid #333;
             margin: 2rem auto;
+            width: 90%;
+            max-width: 1000px;
 
         }
     </style>
 </head>
 
 <body>
-    <canvas id="c"></canvas>
+    <div class="canvas-container">
+        <canvas id="pie"></canvas>
+        <canvas id="bar"></canvas>
+    </div>
     <script>
-        // let data = [{
-        //         name: 'Targaryen',
-        //         troops: 90200
-        //     },
-        //     {
-        //         name: 'Tully',
-        //         troops: 15000
-        //     },
-        //     {
-        //         name: 'Stark',
-        //         troops: 50500
-        //     },
-        //     {
-        //         name: 'Lannister',
-        //         troops: 120800
-        //     },
-        //     {
-        //         name: 'Mormont',
-        //         troops: 16000
-        //     }
-        // ];
-        let data = await fetch('/node.json').then(res => res.json());
-
         const randomHexColorCode = () => {
             return "#" + Math.random().toString(16).slice(2, 8)
         };
 
-        document.addEventListener('DOMContentLoaded', () => {
-            let canvas = document.getElementById('c');
-            let ctx = canvas.getContext('2d');
+        function showBars(values, total) {
+            const canvas = document.getElementById('bar');
+            const context = canvas.getContext('2d');
             canvas.width = 800;
             canvas.height = 600;
-            let total = data.reduce((ttl, house) => {
-                return ttl + house.troops
-            }, 0);
-            let startAngle = 0;
-            let radius = 100;
-            let cx = canvas.width / 2;
-            let cy = canvas.height / 2;
 
-            data.forEach(house => {
-                //set the styles before beginPath
-                ctx.fillStyle = randomHexColorCode();
-                ctx.lineWidth = 1;
-                ctx.strokeStyle = '#333';
-                ctx.beginPath();
-                //console.log(total, house.troops, house.troops/total);
-                // draw the pie wedges
-                let endAngle = ((house.troops / total) * Math.PI * 2) + startAngle;
-                ctx.moveTo(cx, cy);
-                ctx.arc(cx, cy, radius, startAngle, endAngle, false);
-                ctx.lineTo(cx, cy);
-                ctx.fill();
-                ctx.stroke();
-                ctx.closePath();
+            // ctx.canvas.width = window.innerWidth;
+            // ctx.canvas.height = 3*window.innerWidth/4;
 
-                // add the labels
-                ctx.beginPath();
-                ctx.font = '20px Helvetica, Calibri';
-                ctx.textAlign = 'center';
-                ctx.fillStyle = 'rebeccapurple';
-                // midpoint between the two angles
-                // 1.5 * radius is the length of the Hypotenuse
-                let theta = (startAngle + endAngle) / 2;
-                let deltaY = Math.sin(theta) * 1.5 * radius;
-                let deltaX = Math.cos(theta) * 1.5 * radius;
-                /***
-                SOH  - sin(angle) = opposite / hypotenuse
-                                  = opposite / 1px
-                CAH  - cos(angle) = adjacent / hypotenuse
-                                  = adjacent / 1px
-                TOA
-                
-                ***/
-                ctx.fillText(house.name, deltaX + cx, deltaY + cy);
-                ctx.closePath();
+            //clear the canvas
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            //set the styles in case others have been set
+            //set default styles for canvas
+            context.strokeStyle = "#333"; //colour of the lines
+            context.lineWidth = 3;
+            context.font = "bold 11pt Arial";
+            context.fillStyle = "#900"; //colour of the text
+            context.textAlign = "vertical";
+            //the percentage of each value will be used to determine the height of the bars.
+            var graphHeight = 300; //bottom edge of the graph
+            var offsetX = 30; //space away from left edge of canvas to start drawing.
+            var barWidth = 30; //width of each bar in the graph
+            var spaceBetweenPoints = 20; //how far apart to make each x value.
+            //start at values[1].
+            //values[0] is the moveTo point.
+            var x = offsetX + 20; //left edge of first rectangle
+            //var y = offsetY - (graphHeight * (values[0]/100));
+            //start a new path
+            context.beginPath();
+            for (var i = 0; i < values.length; i++) {
+                var percent = values[i].rating / total;
+                console.log(percent);
 
-                startAngle = endAngle;
-            })
+                var barHeight = (graphHeight * percent);
+                //(x, y) coordinates for a rectangle are the top, left values unless you do negative values for w, h
+                context.fillStyle = values[i].color;
+                context.rect(x, graphHeight - 1, barWidth, -1 * barHeight);
+                //for the first point the moveTo and lineTo values are the same
+                //All the labels for the bars are going above the bars
+                var label = values[i].name;
+
+                Math.round(percent * 100).toString();
+
+                context.fillText(label, x, graphHeight - barHeight - 30 - 1);
+                context.fillText((Math.round(percent * 1000)/10).toString() + ' %', x, graphHeight - barHeight - 15 - 2);
+
+                x = x + barWidth + spaceBetweenPoints;
+                //move the x value for the next point
+            }
+
+            context.stroke(); //draw lines around bars
+            context.fill(); //fill colours inside the bars
+
+            context.strokeStyle = "#999";
+            context.lineWidth = 1;
+            context.beginPath();
+            context.moveTo(offsetX, canvas.height - graphHeight);
+            context.lineTo(offsetX, graphHeight);
+            context.lineTo(canvas.width - offsetX, graphHeight);
+            context.stroke();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('https://raw.githubusercontent.com/perl0018/canvas-charts/master/node.json')
+                .then(res => res.json())
+                .then(data => {
+                    let pie = document.getElementById('pie');
+                    let ctx = pie.getContext('2d');
+                    pie.width = 800;
+                    pie.height = 600;
+                    let total = data.reduce((ttl, country) => {
+                        return ttl + country.rating
+                    }, 0);
+                    showBars(data, total);
+                    let startAngle = 0;
+                    let radius = 100;
+                    let cx = pie.width / 2;
+                    let cy = pie.height / 2;
+
+                    data.forEach(country => {
+                        //set the styles before beginPath
+                        ctx.fillStyle = country.color;
+                        ctx.lineWidth = 1;
+                        ctx.strokeStyle = '#222';
+                        ctx.beginPath();
+                        console.log(total, country.rating, country.rating/total);
+            
+                        // draw the pie wedges
+                        let endAngle = ((country.rating / total) * Math.PI * 2) + startAngle;
+                        ctx.moveTo(cx, cy);
+                        ctx.arc(cx, cy, radius, startAngle, endAngle, false);
+                        ctx.lineTo(cx, cy);
+                        ctx.fill();
+                        ctx.stroke();
+                        ctx.closePath();
+
+                        // add the labels
+                        ctx.beginPath();
+                        ctx.font = '18px Helvetica, Calibri';
+                        ctx.textAlign = 'center';
+                        ctx.fillStyle = 'black';
+                        // midpoint between the two angles
+                        // 1.5 * radius is the length of the Hypotenuse
+                        let theta = (startAngle + endAngle) / 2;
+                        let deltaY = Math.sin(theta) * 1.5 * radius;
+                        let deltaX = Math.cos(theta) * 1.5 * radius;
+                        let percent = (Math.round(country.rating / total * 1000)/1000).toString();
+                        /***
+                        SOH  - sin(angle) = opposite / hypotenuse
+                                        = opposite / 1px
+                        CAH  - cos(angle) = adjacent / hypotenuse
+                                        = adjacent / 1px
+                        TOA
+                        
+                        ***/
+                        ctx.fillText(country.name, deltaX + cx, deltaY + cy);
+                        ctx.fillText((Math.round(percent * 1000)/10).toString() + ' %', deltaX + cx, deltaY + cy +15);
+                        ctx.closePath();
+
+                        startAngle = endAngle;
+                    })
+                });
         });
     </script>
 </body>
