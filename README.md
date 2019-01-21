@@ -1,2 +1,3 @@
 # canvas-charts
-Countries that don't suck to visit, and countries that do
+
+Here is a pie chart and graph about countries and how much fun it is to visit them!
