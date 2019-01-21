@@ -1,0 +1,75 @@
+[
+    {
+        "id": 0,
+        "name": "Spain",
+        "color": "red",
+        "rating": 8000
+    },
+    {
+        "id": 1,
+        "name": "Germany",
+        "color": "gold",
+        "rating": 5000
+    },
+    {
+        "id": 2,
+        "name": "Netherlands",
+        "color": "green",
+        "rating": 5000
+    },
+    {
+        "id": 3,
+        "name": "Croatia",
+        "color": "blue",
+        "rating": 8000
+    },
+    {
+        "id": 4,
+        "name": "UnitedKingdom",
+        "color": "white",
+        "rating": 5000
+    },
+    {
+        "id": 5,
+        "name": "Italy",
+        "color": "yellow",
+        "rating": 9000
+    },
+    {
+        "id": 6,
+        "name": "France",
+        "color": "maroon",
+        "rating": 10000
+    },
+    {
+         "id": 7,
+         "name": "America",
+         "color": "purple",
+         "rating": 3000
+    },
+    {
+          "id": 8,
+          "name": "SaudiArabiarica",
+          "color": "black",
+          "rating": 1000
+    },
+   {
+         "id": 9,
+         "name": "Venezuela",
+         "color": "aqua",
+         "rating": 1000
+   },
+    {
+         "id": 10,
+         "name": "Canada",
+         "color": "silver",
+         "rating": 5000
+    },
+    {
+          "id": 11,
+          "name": "Portugal",
+          "color": "brown",
+          "rating": 9000
+    }
+
+]
