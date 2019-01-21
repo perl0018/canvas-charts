@@ -42,25 +42,7 @@
         "rating": 10000
     },
     {
-         "id": 7,
-         "name": "America",
-         "color": "purple",
-         "rating": 3000
-    },
-    {
-          "id": 8,
-          "name": "Saudi",
-          "color": "black",
-          "rating": 1000
-    },
-   {
-         "id": 9,
-         "name": "Venezuela",
-         "color": "aqua",
-         "rating": 1000
-   },
-    {
-         "id": 10,
+         "id": 8,
          "name": "Canada",
          "color": "silver",
          "rating": 5000
